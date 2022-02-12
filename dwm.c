@@ -137,6 +137,7 @@ struct Monitor {
 	int gappiv;           /* vertical gap between windows */
 	int gappoh;           /* horizontal outer gaps */
 	int gappov;           /* vertical outer gaps */
+  int swallowfloating;  /* terminal swallows program */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -2618,3 +2619,4 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
+

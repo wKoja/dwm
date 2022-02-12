@@ -13,6 +13,8 @@ static const unsigned int gappoh =
     0; /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov =
     0; /* vert outer gap between windows and screen edge */
+static int swallowfloating =
+    0; /* 1 means swallow floating windows by default */
 static const int smartgaps =
     0; /* 1 means no outer gap when there is only one window */
 static const int showbar = 1; /* 0 means no bar */
@@ -24,8 +26,8 @@ static char normbgcolor[] = "#222222";
 static char normbordercolor[] = "#977d59";
 static char normfgcolor[] = "#ab9f8a";
 static char selfgcolor[] = "#eeeeee";
-static char selbordercolor[] = "#770000";
-static char selbgcolor[] = "#63502f";
+static char selbordercolor[] = "#771000";
+static char selbgcolor[] = "#771000";
 static char *colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
@@ -141,6 +143,8 @@ ResourcePref resources[] = {
 };
 
 #include "shiftview.c"
+#include <X11/XF86keysym.h>
+
 static Key keys[] = {
     /* modifier                     key        function        argument */
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
@@ -175,8 +179,8 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_e, spawn,
      SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile "
                     "~/.config/abook/addressbook")},
-    {MODKEY, XK_r, spawn, SHCMD(TERMINAL " -e lf")},
-    {MODKEY | ShiftMask, XK_r, spawn, SHCMD(TERMINAL " -e htop")},
+    {MODKEY, XK_r, spawn, SHCMD(TERMINAL " -e ranger")},
+    {MODKEY | ShiftMask, XK_r, spawn, SHCMD(TERMINAL " -e gotop")},
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},             /* tile */
     {MODKEY | ShiftMask, XK_t, setlayout, {.v = &layouts[1]}}, /* bstack */
     {MODKEY, XK_y, setlayout, {.v = &layouts[2]}},             /* spiral */
@@ -197,6 +201,8 @@ static Key keys[] = {
     {MODKEY, XK_bracketright, spawn, SHCMD("mpc seek +10")},
     {MODKEY | ShiftMask, XK_bracketright, spawn, SHCMD("mpc seek +60")},
     {MODKEY, XK_backslash, view, {0}},
+    {MODKEY | ShiftMask, XK_h, spawn,
+     SHCMD("change-lang")},
     /* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") },
      */
 
@@ -251,6 +257,7 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_Left, tagmon, {.i = -1}},
     {MODKEY, XK_Right, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_Right, tagmon, {.i = +1}},
+
     {MODKEY, XK_Page_Up, shiftview, {.i = -1}},
     {MODKEY | ShiftMask, XK_Page_Up, shifttag, {.i = -1}},
     {MODKEY, XK_Page_Down, shiftview, {.i = +1}},
@@ -289,6 +296,7 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_Print, spawn, SHCMD("dmenurecord kill")},
     {MODKEY, XK_Delete, spawn, SHCMD("dmenurecord kill")},
     {MODKEY, XK_Scroll_Lock, spawn, SHCMD("killall screenkey || screenkey &")},
+
     {0, XF86XK_AudioMute, spawn,
      SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)")},
     {0, XF86XK_AudioRaiseVolume, spawn,
@@ -388,3 +396,4 @@ static Button buttons[] = {
     {ClkTagBar, 0, Button5, shiftview, {.i = 1}},
     {ClkRootWin, 0, Button2, togglebar, {0}},
 };
+
