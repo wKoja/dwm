@@ -348,6 +348,17 @@ static Key keys[] = {
     {0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 15")},
     {0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 15")},
 
+    /*making use of my TKL keyboard's useless keys*/
+
+    // brightness
+    {0, XK_Pause, spawn, SHCMD("xbacklight -inc 15")},
+    {0, XK_Scroll_Lock, spawn, SHCMD("xbacklight -dec 15")},
+    // volume
+    {MODKEY, XK_Pause, spawn,
+     SHCMD("pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)")},
+    {MODKEY, XK_Scroll_Lock, spawn,
+     SHCMD("pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)")},
+
     /* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } },
      */
     /* { MODKEY|Mod4Mask,              XK_l,      incrgaps,       {.i = -1 } },
