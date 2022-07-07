@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+//TODO align all that shit
 
 /* Constants */
 #define TERMINAL "st"
@@ -19,8 +20,8 @@ static const int smartgaps =
     0; /* 1 means no outer gap when there is only one window */
 static const int showbar = 1; /* 0 means no bar */
 static const int topbar = 1;  /* 0 means bottom bar */
-static const char *fonts[] = {
-    "monospace:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true"};
+static const char *fonts[] = { "monospace:size=11",
+                               "JoyPixels:pixelsize=10:antialias=true:autohint=true"};
 static char dmenufont[] = "monospace:size=10";
 static char normbgcolor[] = "#222222";
 static char normbordercolor[] = "#977d59";
@@ -52,17 +53,16 @@ static Sp scratchpads[] = {
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 static const Rule rules[] = {
-    /* xprop(1):
-     *	WM_CLASS(STRING) = instance, class
-     *	WM_NAME(STRING) = title
-     */
-    /* class    instance      title       	 tags mask    isfloating
-       isterminal  noswallow  monitor */
-    {"Gimp", NULL, NULL, 1 << 8, 0, 0, 0, -1},
-    {TERMCLASS, NULL, NULL, 0, 0, 1, 0, -1},
-    {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1},
-    {NULL, "spterm", NULL, SPTAG(0), 1, 1, 0, -1},
-    {NULL, "spcalc", NULL, SPTAG(1), 1, 1, 0, -1},
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
+	 *	WM_NAME(STRING) = title
+	*/
+	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
+	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
+	{ TERMCLASS,   NULL,       NULL,       	    0,            0,           1,         0,        -1 },
+	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
+	{ NULL,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
+	{ NULL,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
 };
 
 /* layout(s) */
@@ -350,14 +350,9 @@ static Key keys[] = {
 
     /*making use of my TKL keyboard's useless keys*/
 
-    // brightness
+    // controlling brightness in my main scree
     {0, XK_Pause, spawn, SHCMD("xbacklight -inc 15")},
     {0, XK_Scroll_Lock, spawn, SHCMD("xbacklight -dec 15")},
-    // volume
-    {MODKEY, XK_Pause, spawn,
-     SHCMD("pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)")},
-    {MODKEY, XK_Scroll_Lock, spawn,
-     SHCMD("pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)")},
 
     /* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } },
      */
